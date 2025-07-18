@@ -2,10 +2,12 @@ package service;
 
 import model.Student;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Optional;
 
 public class StudentService {
+    private static final String filePath = "C:/Users/navaneeth/Downloads/learning/Student Management System/src/students.txt";
     private static final ArrayList<Student> students = new ArrayList<>();
 
     public void addStudent(Student newStudent) {
@@ -38,5 +40,22 @@ public class StudentService {
     public void deleteStudent(Integer rollNo) {
         Student student = getStudentByRollNo(rollNo);
         students.remove(student);
+    }
+
+    public void loadFile() throws IOException {
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
+            // read data from the file and split with ","
+            // save to ArrayList students
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveToFile() throws IOException {
+        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath))) {
+            // write array list to file
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
