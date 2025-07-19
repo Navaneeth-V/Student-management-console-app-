@@ -9,6 +9,7 @@ public class StudentMangerApp {
     public static void main (String[] args) {
         StudentService studentService = new StudentService();
         Scanner sc = new Scanner(System.in);
+        studentService.loadFile();
 
         while(true) {
             System.out.println("1. Add Student");
@@ -25,7 +26,7 @@ public class StudentMangerApp {
                     studentService.addStudent(newStudent);
                     break;
                 case 2:
-                    studentService.listStudent().forEach(System.out::println);
+                    studentService.listStudent().forEach((student) -> System.out.println(student.getRollNo() + " " + student.getName() + " " + student.getAge()));
                     break;
                 case 3:
                     Student updatedStudent = readStudentDetails(sc);
@@ -35,6 +36,10 @@ public class StudentMangerApp {
                     System.out.println("Enter roll no to delete");
                     Integer rollNo = sc.nextInt();
                     studentService.deleteStudent(rollNo);
+                    break;
+                default:
+                    System.out.println("Invalid input");
+                    break;
             }
         }
     }

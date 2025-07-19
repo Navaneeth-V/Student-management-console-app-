@@ -16,6 +16,7 @@ public class StudentService {
         student.setName(newStudent.getName());
         student.setAge(newStudent.getAge());
         students.add(student);
+        this.saveToFile();
     }
 
     public ArrayList<Student> listStudent() {
@@ -35,25 +36,38 @@ public class StudentService {
         student.setName(updatedStudent.getName());
         student.setAge(updatedStudent.getAge());
         students.set(students.indexOf(student), student);
+        this.saveToFile();
     }
 
     public void deleteStudent(Integer rollNo) {
         Student student = getStudentByRollNo(rollNo);
         students.remove(student);
+        saveToFile();
     }
 
-    public void loadFile() throws IOException {
+    public void loadFile() {
         try(BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
-            // read data from the file and split with ","
-            // save to ArrayList students
+            String line = bufferedReader.readLine();
+            while(line != null) {
+                String[] studentDetails = line.split(",");
+                Student student = new Student();
+                student.setRollNo(Integer.valueOf(studentDetails[0]));
+                student.setName(studentDetails[1]);
+                student.setAge(Integer.valueOf(studentDetails[2]));
+                students.add(student);
+                line = bufferedReader.readLine();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void saveToFile() throws IOException {
+    public void saveToFile() {
         try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath))) {
-            // write array list to file
+            for(Student student : students) {
+                String newLine = student.getRollNo() + "," + student.getName() + "," + student.getAge();
+                bufferedWriter.write(newLine + System.lineSeparator());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
